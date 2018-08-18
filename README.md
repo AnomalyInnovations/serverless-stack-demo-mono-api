@@ -1,21 +1,18 @@
-# Serverless Stack Demo API
+# Serverless Stack Mono-Repo Backend API
 
-[Serverless Stack](http://serverless-stack.com) is a free comprehensive guide to creating full-stack serverless applications. We create a [note taking app](http://demo2.serverless-stack.com) from scratch.
+[Serverless Stack](https://serverless-stack.com) is a free comprehensive guide to creating full-stack serverless applications. We create a [note taking app](https://demo2.serverless-stack.com) from scratch.
 
-This repo is for the serverless backend API that we build over the course of the tutorial. You can find the repo for the frontend React app [here](https://github.com/AnomalyInnovations/serverless-stack-demo-client). And the repo for the tutorial [here](https://github.com/AnomalyInnovations/serverless-stack-com).
+This repo is a sample mono-repo multi-service Serverless application with AWS CloudFormation cross-stack references. The steps to creating this are outlined in the [Serverless architecture section](http://serverless-stack.com/#extra-sls-architecture) of the Serverless Stack guide.
 
-#### Steps
+### Steps
 
-To support the different chapters and steps of the tutorial; we use branches to represent the project codebase at the various points. Here is an index of the various chapters and branches in order.
+In this section of the guide we look at how to:
 
-- [Set up the Serverless Framework](../../tree/setup-the-serverless-framework)
-- [Add Support for ES6/ES7 JavaScript](../../tree/add-support-for-es6-es7-javascript)
-- [Add a Create Note API](../../tree/add-a-create-note-api)
-- [Add a Get Note API](../../tree/add-a-get-note-api)
-- [Add a List All the Notes API](../../tree/add-a-list-all-the-notes-api)
-- [Add an Update Note API](../../tree/add-an-update-note-api)
-- [Add a Delete Note API](../../tree/add-a-delete-note-api)
-- [Unit Tests in Serverless](../../tree/unit-tests-in-serverless)
+- [Link multiple Serverless services using CloudFormation cross-stack references](https://serverless-stack.com/chapters/cross-stack-references-in-serverless.html)
+- [Create our DynamoDB table as a Serverless service](https://serverless-stack.com/chapters/dynamodb-as-a-serverless-service.html)
+- [Create an S3 bucket as a Serverless service](https://serverless-stack.com/chapters/s3-as-a-serverless-service.html)
+- [Use the same API Gateway domain and resources across multiple Serverless services](https://serverless-stack.com/chapters/api-gateway-domains-across-services.html)
+- [Create a Serverless service for Cognito to authenticate and authorize our users](https://serverless-stack.com/chapters/cognito-as-a-serverless-service.html)
 
 #### Usage
 
@@ -28,35 +25,24 @@ $ npm install serverless -g
 Clone this repo and install the NPM packages.
 
 ``` bash
-$ git clone https://github.com/AnomalyInnovations/serverless-stack-demo-api
-$ npm install
+$ git clone https://github.com/AnomalyInnovations/serverless-stack-demo-mono-api
 ```
 
-Run a single API on local.
+Go to one of the services in the `services/` dir.
 
-``` bash
-$ serverless invoke local --function list --path event.json
-```
-
-Where, `event.json` contains the request event info and looks something like this.
-
-``` json
-{
-  "requestContext": {
-    "authorizer": {
-      "claims": {
-        "sub": "USER-SUB-1234"
-      }
-    }
-  }
-}
-```
-
-Finally, run this to deploy to your AWS account.
+And run this to deploy to your AWS account.
 
 ``` bash
 $ serverless deploy
 ```
+
+The services have some dependencies and need to be deployed in the following order:
+
+1. `database`
+2. `uploads`
+3. `notes`
+4. `users`
+5. `auth`
 
 #### Maintainers
 
