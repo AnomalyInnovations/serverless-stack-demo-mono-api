@@ -15,7 +15,7 @@ provider:
   # under process.env.
   environment:
     tableName:
-      'Fn::ImportValue': ${self:custom.stage}-NotesTable
+      ${file(../database/serverless.yml):custom.tableName}
 
   iamRoleStatements:
     - Effect: Allow
